@@ -1,4 +1,8 @@
-import pandas as pd 
+"""Feb 24, 2021
+Contains functions required to check infousa county flows
+
+"""
+import pandas as pd
 
 def get_uniqueZIP(df):
 	"""Returns list of unique zip codes in the dataframe in the column df['ZIP']
@@ -82,14 +86,14 @@ def get_flows(infousaDF, censusDF, year1, year2):
 	RETURNS: DataFrame
 	"""
 	infousa = infousaDF.groupby([YEAR1, YEAR2]).size().reset_index()
-	infousa.columns=['A', 'B', 'N']	
+	infousa.columns=['A', 'B', 'N']
 	merged = censusDF.merge(infousa, on=['A', 'B'], how='left')
 	merged['N']=merged['N'].fillna(0)
 	merged['N']=merged['N']*2.48
 	merged['UPPER']= merged['Estimate'] + merged['MOE']
 	merged['LOWER']= merged['Estimate'] - merged['MOE']
 	return merged
-	
+
 
 
 
